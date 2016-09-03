@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/messenger'
+
+options = {}
+OptionParser.new do |parser|
+  parser.banner = "Usage: messenger [options]"
+
+  parser.on("-h", "--help", "Show this help message") do
+    puts parser
+  end
+  parser.on("-i", "--install", "Install messenger dependencies") do
+    puts "Installing"
+  end
+  parser.on("--start", "Start the server client") do
+    Messenger::Client.start!
+  end
+  parser.on("-s", "--send Message", "Send message to messenger server") do |message|
+    options[:message] = message
+  end
+end.parse!
+
+if options[:message]
+  Messenger::Send.message(options[:message])
+end
+
+
+# print "Enter your name: "
+# name = gets.chomp
+#
+# print "Enter message: "
+# message = gets.chomp.gsub(/['`]/, '')
+# while message != 'exit messenger' do
+#     `redis-cli -h aws-us-east-1-portal.15.dblayer.com -p 15156 -a PBJSVFCGCEORLAAA PUBLISH message "#{name}: #{message}"`
+#     print "Enter message: "
+#     message = gets.chomp.gsub(/['`]/, '')
+# end
+#
+# exit
