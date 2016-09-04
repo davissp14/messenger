@@ -1,7 +1,11 @@
 
 module Messenger
   REDIS_SERVER_URI = ENV['REDIS_SERVER_URI']
-  CHANNEL = "messenger"
+  if REDIS_SERVER_URI.nil?
+    puts "MISSING REDIS_SERVER_URI environment variable. Exiting."
+    exit(1)
+  end
+  CHANNELS = "message"
 end
 
 require 'redis'

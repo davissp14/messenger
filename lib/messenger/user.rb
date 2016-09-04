@@ -3,17 +3,18 @@ require 'fileutils'
 
 module Messenger
   class User
+    class UnRegisteredUser < StandardError; end
 
     FILE_PATH = File.expand_path('~') + "/.user.yml"
 
     def self.registered?
       if File.exists?(FILE_PATH)
-        file = YAML::load_file(FILE_PATH)
-        info = file[:info]
-        return false unless info
-        return true unless info[:first_name].nil? && info[:last_name].nil?
+        info = Messenger::User.info
+        if info && info['first_name'] && info['last_name']
+          return true
+        end
       end
-      false
+      return false
     end
 
     def self.register
@@ -24,14 +25,16 @@ module Messenger
       last_name = gets.chomp
       puts "That's it!  That's literally all I want from you."
 
-      file = {info: {}}
-      file[:info][:first_name] = first_name
-      file[:info][:last_name] = last_name
-      File.open(FILE_PATH, 'w') {|f| f.write file.to_yaml } #St
+      file = {}
+      file['first_name'] = first_name
+      file['last_name'] = last_name
+      File.open(FILE_PATH, 'w') {|f| f.write file.to_yaml }
     end
 
     def self.info
       YAML::load_file(FILE_PATH)
+    rescue
+      nil
     end
 
   end
