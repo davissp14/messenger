@@ -19,4 +19,5 @@ Only works on Mac right now.
     
 # Usage
 To start listening for voices:  `messenger --start`
+
 To send messages run: `messenger --send "Your message"`
