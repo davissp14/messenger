@@ -18,6 +18,5 @@ Only works on Mac right now.
     2. messenger --register                                   # Asks for First name / Last name.
     
 # Usage
-To start listening run:  `messenger --start`
-
+To start listening for voices:  `messenger --start`
 To send messages run: `messenger --send "Your message"`
