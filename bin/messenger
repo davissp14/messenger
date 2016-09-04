@@ -6,19 +6,22 @@ options = {}
 OptionParser.new do |parser|
   parser.banner = "Usage: messenger [options]"
 
+  parser.on("", "", "") do
+    puts "Type `messenger -h` for help"
+  end
   parser.on("-h", "--help", "Show this help message") do
     puts parser
   end
-  parser.on("-i", "--install", "Install messenger dependencies") do
+  parser.on("--install", "Install messenger dependencies") do
     puts "Installing"
   end
   parser.on("--start", "Start the server client") do
     Messenger::Client.start!
   end
-  parser.on("-s", "--send Message", "Send message to messenger server") do |message|
+  parser.on("--send", "Send message to messenger server") do |message|
     options[:message] = message
   end
-  parser.on("-r", "--register", "Register yourself") do
+  parser.on("--register", "Register yourself as a User, or modify existing name.") do
     Messenger::User.register
   end
 end.parse!
