@@ -18,10 +18,13 @@ OptionParser.new do |parser|
   parser.on("-s", "--send Message", "Send message to messenger server") do |message|
     options[:message] = message
   end
+  parser.on("-r", "--register", "Register yourself") do
+    Messenger::User.register
+  end
 end.parse!
 
 if options[:message]
-  Messenger::Send.message(options[:message])
+  Messenger::Client.send_message(options[:message])
 end
 
 
