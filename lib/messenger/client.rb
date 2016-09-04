@@ -12,12 +12,13 @@ module Messenger
             name = "#{message['first_name']} #{message['last_name']}"
             body = message['body']
             if Messenger::User.id != message['id']
+              puts "#{name}: \"#{body}\""
               `/usr/bin/osascript -e 'display notification "#{body}" with title "#{name}" sound name "/System/Library/Sounds/Sosumi.aiff"'`
+            else
+              puts "#{name}: \"#{body}\" (#{Messenger::Client.number_of_listeners} people heard you.)"
             end
-            puts "#{name}: #{body}"
           end
         end
-
       rescue
         puts $!.inspect
         exit(1)
@@ -53,6 +54,9 @@ module Messenger
       process != ""
     end
 
-
+    def self.number_of_listeners
+      redis = Redis.new(url: Messenger::REDIS_SERVER_URI)
+      redis.pubsub('numsub', 'message').last.to_i - 1
+    end
   end
 end
