@@ -6,9 +6,6 @@ options = {}
 OptionParser.new do |parser|
   parser.banner = "Usage: messenger [options]"
 
-  parser.on("", "", "") do
-    puts "Type `messenger -h` for help"
-  end
   parser.on("-h", "--help", "Show this help message") do
     puts parser
   end
@@ -19,16 +16,22 @@ OptionParser.new do |parser|
     Messenger::Client.start!
   end
   parser.on("--send", "Send message to messenger server") do |message|
-    options[:message] = message
+    Messenger::Client.send_message(parser.parse!.join(''))
+    exit
   end
   parser.on("--register", "Register yourself as a User, or modify existing name.") do
     Messenger::User.register
+    exit
+  end
+  parser.on("--update", "Pulls down the latest changes.") do
+    dir = File.dirname(File.expand_path(File.readlink(__FILE__)))
+    puts "Updating messenger to the latest..."
+    `cd #{dir}; git pull origin master; cd -`
+    puts "Success!"
+    exit
   end
 end.parse!
 
-if options[:message]
-  Messenger::Client.send_message(options[:message])
-end
 
 
 # print "Enter your name: "
