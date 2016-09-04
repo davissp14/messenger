@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 
 puts "Checking / Installing Brew"
 `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`
@@ -6,3 +6,10 @@ puts "Brew install Redis"
 `brew install redis`
 puts "Install redis gem"
 `gem install redis`
+
+puts "Creating Symlink"
+path = File.dirname(File.expand_path(__FILE__))
+`ln -s #{path}/messenger /usr/local/bin/messenger`
+
+puts "Finished installing!"
+puts "Type messenger -h for help."
