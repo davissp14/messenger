@@ -1,6 +1,6 @@
 # messenger
 
-This is a pretty simple command line based chat client that uses Redis Pub/Sub.  Messeges are never stored and SSL support will be coming soon.
+This is a pretty simple command line based chat client that uses Redis Pub/Sub.
 
 # Compatability
 Only works on Mac right now. 
